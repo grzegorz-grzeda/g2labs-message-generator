@@ -3,6 +3,7 @@
 # modifiers:
 # array - constant size
 message simple_message
+    id 1
     u8 counter
     i16 field_1
     array[10] u32 numbers
