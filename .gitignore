@@ -1,3 +1,6 @@
 .vscode/
-*.pyc
+__pycache__/**
+simple_message.c
+simple_message.h
+simple_test
 .bin
