@@ -14,6 +14,8 @@ struct {{name}} { {% for field in fields %}
     {{array.c_type}} {{array.name}}[{{name.upper()}}_{{array.name.upper()}}_SIZE];{% endfor %}
 };
 
+bool is_buffer_a_{{name}}(const uint8_t *buffer);
+
 bool {{name}}_decode(const uint8_t *buffer, struct {{name}} *msg);
 
 bool {{name}}_encode(const struct {{name}} *msg, uint8_t *buffer);

@@ -4,18 +4,18 @@
 #define GET_U8(ptr) ((uint8_t) * (ptr))
 #define GET_U16(ptr)             \
   (((uint16_t)(GET_U8((ptr)))) + \
-   (((uint16_t)(GET_U8((ptr + 1)))) << 8))
+   (((uint16_t)(GET_U8(((ptr) + 1)))) << 8))
 #define GET_U32(ptr)              \
   (((uint32_t)(GET_U16((ptr)))) + \
-   (((uint32_t)(GET_U16((ptr + 2)))) << 16))
+   (((uint32_t)(GET_U16(((ptr) + 2)))) << 16))
 
 #define GET_I8(ptr) (int8_t) * (ptr)
 #define GET_I16(ptr)              \
-  (((int16_t)(GET_I8((ptr)))) + \
-   (((int16_t)(GET_I8((ptr + 1)))) << 8))
+  (int16_t)(((uint16_t)(GET_U8((ptr)))) + \
+   (((uint16_t)(GET_U8((ptr + 1)))) << 8))
 #define GET_I32(ptr)               \
-  (((int32_t)(GET_I16((ptr)))) + \
-   (((int32_t)(GET_I16((ptr + 2)))) << 16))
+  (int32_t)(((uint32_t)(GET_U16((ptr)))) + \
+   (((uint32_t)(GET_U16((ptr + 2)))) << 16))
 
 #define SET_U8(ptr, value) *((uint8_t*)(ptr)) = (value)
 #define SET_U16(ptr, value)                   \
@@ -29,20 +29,27 @@
     SET_U16(ptr + 2, (uint16_t)((value) >> 16)); \
   }
 
-#define SET_I8(ptr, value) *((int8_t*)(ptr)) = (value)
+#define SET_I8(ptr, value) SET_U8((ptr), ((uint8_t)(value)))
 #define SET_I16(ptr, value)                  \
   {                                         \
-    SET_I8(ptr, (int8_t)(value));            \
-    SET_I8(ptr + 1, (int8_t)((value) >> 8)); \
+    SET_I8((ptr), (value));            \
+    SET_I8((ptr + 1), ((value) >> 8)); \
   }
 #define SET_I32(ptr, value)                     \
   {                                            \
-    SET_I16(ptr, (int16_t)(value));             \
-    SET_I16(ptr + 2, (int16_t)((value) >> 16)); \
+    SET_I16((ptr), (value));             \
+    SET_I16((ptr + 2), ((value) >> 16)); \
   }
 
+bool is_buffer_a_{{name}}(const uint8_t *buffer){
+  if (buffer){
+    return (GET_U16(buffer) == {{name.upper()}}_ID);
+  }
+  return false;
+}
+
 bool {{name}}_decode(const uint8_t* buffer, struct {{name}}* msg) {
-  if (buffer && msg && (GET_U16(buffer) == {{name.upper()}}_ID)) {
+  if (is_buffer_a_{{name}}(buffer) && msg) {
     buffer += 2;{%for field in fields %}
     msg->{{field.name}} = GET_{{field.define_type}}(buffer);
     buffer += {{field.byte_count}};{% endfor %}{% for array in arrays %}
