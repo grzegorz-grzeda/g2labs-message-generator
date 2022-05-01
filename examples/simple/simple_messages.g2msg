@@ -1,0 +1,9 @@
+# available types:
+# (u/i)(8/16/32/64)
+# modifiers:
+# array - constant size
+message simple_message
+    u8 counter
+    i16 field_1
+    array[10] u32 numbers
+end
