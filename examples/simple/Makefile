@@ -1,6 +1,5 @@
 all:
-	gcc -I. -o sender simple_message.c sender.c
-	gcc -I. -o receiver simple_message.c receiver.c
+	gcc -I. -o simple_test simple_message.c simple_test.c
 
 clean:
-	rm sender receiver
+	rm -rf simple_test
