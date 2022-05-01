@@ -65,7 +65,7 @@ def get_size_from_type(type):
 def detect_normal_field(line):
     elements = line.split()
     if(len(elements) == 2) and MESSAGE["name"] and not elements[0] == "message" and not elements[0] == 'id':
-        name = elements[1].lower().replace('-', '_').replace(' ', '_')
+        name = elements[1].lower().replace('-', '_')
         type = elements[0]
         c_type = get_c_type(type)
         define_type = get_define_type(type)
@@ -78,7 +78,7 @@ def detect_normal_field(line):
 def detect_array_field(line):
     elements = line.split()
     if(len(elements) == 3) and MESSAGE["name"] and elements[0].startswith('array'):
-        name = elements[2].lower().replace('-', '_').replace(' ', '_')
+        name = elements[2].lower().replace('-', '_')
         type = elements[1]
         c_type = get_c_type(type)
         size = elements[0].replace('array[', '')
@@ -125,7 +125,6 @@ def init_templates():
 
 
 def main():
-    global MESSAGE_ID
     global PATH
 
     h_template, c_template = init_templates()
