@@ -138,6 +138,7 @@ def main():
     content = remove_comments(content)
 
     for line in content:
+        line = line.replace(';','')
         detect_message_start(line)
         detect_id(line)
         detect_normal_field(line)
