@@ -1,5 +1,5 @@
-#ifndef {{name.upper()}}_H
-#define {{name.upper()}}_H
+#ifndef G2LABS_MESSAGE_GENERATOR_{{name.upper()}}_H
+#define G2LABS_MESSAGE_GENERATOR_{{name.upper()}}_H
 #include <stdint.h>
 #include <stdbool.h>
 #include <stddef.h>
@@ -20,4 +20,4 @@ bool {{name}}_decode(const uint8_t *buffer, struct {{name}} *msg);
 
 bool {{name}}_encode(const struct {{name}} *msg, uint8_t *buffer);
 
-#endif // {{name.upper()}}_H
+#endif // G2LABS_MESSAGE_GENERATOR_{{name.upper()}}_H
